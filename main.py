@@ -1,26 +1,14 @@
+import functools
+
+
 DEBUG = True
-
-
-def update_wrapper(wrapper, wrapped):
-    for attr in ["__name__", "__doc__", "__module__"]:
-        setattr(wrapper, attr, getattr(wrapped, attr))
-    wrapper.__wrapped__ = wrapped
-    return wrapper
-
-
-def wraps(fn):
-    def decorator(wrapper):
-        update_wrapper(wrapper, fn)
-        return wrapper
-
-    return decorator
 
 
 def debug(fn):
     if not DEBUG:
         return fn
 
-    @wraps(fn)
+    @functools.wraps(fn)
     def inner(*args, **kwargs):
         params = ", ".join(
             [str(arg) for arg in args] + [f"{key}={value}" for key, value in kwargs.items()]
