@@ -1,6 +1,7 @@
-from decorators import debug, once
+from decorators import debug, once, deprecated
 
 
+@deprecated
 @debug
 @once
 def minmax(first, *rest):
@@ -11,5 +12,4 @@ def minmax(first, *rest):
     return min_result, max_result
 
 
-if minmax(1, 3, 9, 5, 7) == minmax(2, 4, 10, 6, 8):
-    print("The same returned value")
+minmax(2, 4, 10, 6, 8)
