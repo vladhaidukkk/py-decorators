@@ -1,9 +1,8 @@
-from decorators import debug, once, deprecated
+from decorators import debug, memoize
 
 
-@deprecated
 @debug
-@once
+@memoize
 def minmax(first, *rest):
     min_result = max_result = first
     for arg in rest:
@@ -12,4 +11,5 @@ def minmax(first, *rest):
     return min_result, max_result
 
 
+minmax(2, 4, 10, 6, 8)
 minmax(2, 4, 10, 6, 8)
