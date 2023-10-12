@@ -5,27 +5,27 @@ import sys
 DEBUG = True
 
 
-def debug(stream=sys.stdout):
-    def decorator(fn):
-        if not DEBUG:
-            return fn
+def debug(fn=None, *, stream=sys.stdout):
+    if fn is None:
+        return functools.partial(debug, stream=stream)
 
-        @functools.wraps(fn)
-        def inner(*args, **kwargs):
-            params = ", ".join(
-                [str(arg) for arg in args] + [f"{key}={value}" for key, value in kwargs.items()]
-            )
-            print(f"{fn.__name__}({params}) = ?", file=stream)
-            result = fn(*args, **kwargs)
-            print(f"{fn.__name__}({params}) = {result}", file=stream)
-            return result
+    if not DEBUG:
+        return fn
 
-        return inner
+    @functools.wraps(fn)
+    def inner(*args, **kwargs):
+        params = ", ".join(
+            [str(arg) for arg in args] + [f"{key}={value}" for key, value in kwargs.items()]
+        )
+        print(f"{fn.__name__}({params}) = ?", file=stream)
+        result = fn(*args, **kwargs)
+        print(f"{fn.__name__}({params}) = {result}", file=stream)
+        return result
 
-    return decorator
+    return inner
 
 
-@debug(sys.stderr)
+@debug
 def minmax(first, *rest):
     min_result = max_result = first
     for arg in rest:
