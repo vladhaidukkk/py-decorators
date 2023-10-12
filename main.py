@@ -1,7 +1,8 @@
-from decorators import debug
+from decorators import debug, once
 
 
 @debug
+@once
 def minmax(first, *rest):
     min_result = max_result = first
     for arg in rest:
@@ -10,4 +11,5 @@ def minmax(first, *rest):
     return min_result, max_result
 
 
-minmax(1, 3, 9, 5, 7)
+if minmax(1, 3, 9, 5, 7) == minmax(2, 4, 10, 6, 8):
+    print("The same returned value")
