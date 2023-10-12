@@ -1,4 +1,10 @@
+DEBUG = True
+
+
 def debug(fn):
+    if not DEBUG:
+        return fn
+
     def inner(*args, **kwargs):
         params = ", ".join(
             [str(arg) for arg in args] + [f"{key}={value}" for key, value in kwargs.items()]
